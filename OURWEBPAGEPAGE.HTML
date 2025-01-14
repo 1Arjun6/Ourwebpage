@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Notes for Yashika</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Indie+Flower&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial, sans-serif';
+      background: linear-gradient(to bottom right, #ffcccb, #ffe4e1);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-family: 'Comic Sans', cursive; /* Handwritten style for body text */
+    }
+    #login {
+      margin-top: 100px;
+    }
+    input {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s, transform 1s;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+    .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff6f61;
+    transform: rotate(-45deg);
+    animation: float 5s infinite;
+  }
+  .heart::before,
+  .heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #ff6f61;
+    border-radius: 50%;
+  }
+  .heart::before {
+    top: -10px;
+    left: 0;
+  }
+  .heart::after {
+    top: 0;
+    left: 10px;
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(0) rotate(-45deg);
+    }
+    50% {
+      transform: translateY(-100px) rotate(-45deg);
+    }
+    100% {
+      transform: translateY(0) rotate(-45deg);
+    }
+  }
+  button:hover {
+  background-color: #ff8c94;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+    button:hover {
+      background-color: #ff4436;
+    }
+    h1 {
+      color: #ff6f61;
+      margin-top: 20px;
+      font-family: 'Pacifico', cursive; /* Cute, curly font for titles */
+    }
+    P {
+      color: #ff6f61;
+    }
+    .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+  }
+  h2 {
+      text-align: center;
+      color: #ff6f61;
+      margin-top: 50px;
+    }
+
+    .gallery-section {
+      margin-bottom: 50px;
+    }
+
+    .gallery-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .gallery-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+    .gallery-grid img,
+    .gallery-grid video {
+      width: 150px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      opacity: 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      animation: fadeIn 1.5s forwards;
+    }
+
+    .gallery-grid img:hover,
+     .gallery-grid video:hover{
+      transform: scale(1.1);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .section-header {
+      font-size: 2em;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .note {
+      background-color: #fff;
+      border: 2px solid #ff6f61;
+      padding: 10px;
+      margin: 10px auto;
+      border-radius: 8px;
+      max-width: 300px;
+    }
+    .countdown {
+      margin: 20px;
+      font-size: 1.5em;
+      color: #ff6f61;
+    }
+    .hidden-message {
+      display: none;
+      margin-top: 20px;
+      margin-bottom: 70px; /* Add extra space below the message */
+      font-size: 1.5em;
+      color: #ff6f61;
+      opacity: 0;
+      transform: scale(0.5);
+      animation: revealMessage 1s ease-out forwards;
+      text-shadow: 0 0 10px #ff6f61, 0 0 20px #ff4436;
+    }
+    @keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+    @keyframes revealMessage {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.2) rotate(10deg);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+
+    button {
+      background-color: #ff6f61;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px; /* Add extra space below the button */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #ff4436;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <h1>Login</h1>
+    <input type="text" id="username" placeholder="Enter username babe"><br>
+    <input type="password" id="password" placeholder="Now password type madi"><br>
+    <button onclick="authenticate()">Login</button>
+    <p id="error-message" style="color: red; display: none;">Uh Ohh,its wrong..Again try madi</p>
+  </div>
+
+  <div id="content" style="display: none;">
+    <h1>WELCOME TO OUR DIGITAL SCRAPBOOK 💖</h1>
+    <p>Developed and maintained by Mr.Arjun(your cute boyfriend)</p>
+    <!-- Your website content goes here -->
+    <div class="heart" style="top: 50px; left: 100px;"></div>
+    <div class="heart" style="top: 100px; left: 200px;"></div>
+       <!-- Gallery Section -->
+  <!-- Section 1: Goofy pics -->
+  <div class="gallery-section">
+    <h2 class="section-header">GOOFY US</h2>
+    <div class="gallery-grid">
+      <img src="img3.jpg" alt="goofy pic 1">
+      <video controls>
+        <source src="chudail.mp4" type="video/mp4">
+        </video> 
+      <img src="cubbon.jpg" alt="goofy pic 2">
+      <video controls>
+        <source src="pic vd.mp4" type="video/mp4">
+        </video>
+      <img src="img6.jpg" alt="goofy pic 3">
+      <img src="img5.jpg" alt="goofy pic 4">
+    </div>
+  </div>
+  <div class="note">Whatever our souls are made of, yours and mine are the same</div>
+  <!-- Section 2: College pics -->
+  <div class="gallery-section">
+    <h2 class="section-header">JUST 2 CUTIES IN COLLEGE CAMPUS</h2>
+    <div class="gallery-grid">
+      <img src="clg.jpg" alt="clg pic  1">
+      <img src="clg 3.jpg" alt="clg pic 2">
+      <img src="clg 4.jpg" alt="clg pic 3">
+      <img src="clg (2).jpg" alt="clg pic 4">
+    </div>
+  </div>
+
+  <!-- Section 3: Cute pics -->
+  <div class="gallery-section">
+    <h2 class="section-header">CUTE AND COOL US</h2>
+    <div class="gallery-grid">
+      <img src="1st bday.jpg" alt="cute pic 1">
+      <video controls>
+        <source src="rkc vd.mp4" type="video/mp4">
+        </video>
+      <img src="bday 1.webp" alt="cute pic 3">
+      <img src="cubbon 3.jpg" alt="cute pic 4">
+      <img src="cubbon 2.jpg" alt="cute pic 5">
+      <img src="cubbon 4.jpg" alt="cute pic 6">
+      <img src="ethnic day.jpg" alt="cute pic 7">
+      <img src="park.jpg" alt="cute pic 8">
+    </div>
+    </div>
+    <h1>This song will explain better than me how i feel about you</h1>
+    <video width="300" height="250" src="Elvis Presley - Can t Help Falling in Love (Lyrics).mp4" controls></video>
+    <br>
+    <!-- Section 4: Bday pics -->
+  <div class="gallery-section">
+    <h2 class="section-header">BIRTHDAYSSSS</h2>
+    <div class="gallery-grid">
+      <img src="1st bday.jpg" alt="bday pic 1">
+      <img src="1st bday2.jpg" alt="bday pic 2">
+      <img src="bday 1.webp" alt="bday pic 3">
+      <img src="bday.jpg" alt="bday pic 4">
+      <img src="bday cake.jpg" alt="bday pic 5">
+      <video controls>
+        <source src="latest bday.mp4" type="video/mp4">
+        </video>
+  </div>
+  </div>
+  <!-- Section 5: Anniversary pics -->
+   <div class="gallery-section">
+    <h2 class="section-header">BEST ANNIVERSARYY</h2>
+    <div class="gallery-grid">
+      <img src="img1.jpg" alt="anniversary pic 1">
+      <video controls>
+        <source src="dog aj.mp4" type="video/mp4">
+        </video>
+      <img src="dog.jpg" alt="anniversary pic 2">
+      <img src="dog 2.jpg" alt="anniversary pic 3">
+    </div>
+    </div>
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="Lightbox Image" id="lightboxImg">
+  </div>
+  <!-- Love Notes Section -->
+  <div class="note">IDk if you feel the same but i feel like this was a perfect anniversary and a perfect day</div>
+
+  <!-- Countdown Section -->
+  <h1>Countdown to Our Next Anniversary!</h1>
+  <div class="countdown" id="countdown">
+    Days: 0, Hours: 0, Minutes: 0, Seconds: 0
+  </div>
+<br>
+  <!-- Hidden Surprise -->
+  <h1>Click the below button for a surprise!</h1>
+  <div><button onclick="showMessage()">Reveal Message</button></div>
+  <div class="hidden-message" id="hiddenMessage">I LOVE YOU BOHUT SARA BAKA ❤️</div>
+  <!-- scrip section -->
+  <script>
+    const elements = document.querySelectorAll('.fade-in');
+    window.addEventListener('scroll', () => {
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          el.classList.add('visible');
+        }
+      });
+    });
+  </script>
+  <!-- Example Usage -->
+<div class="fade-in">This content will fade in as you scroll!</div>
+  <!-- Lightbox Script -->
+  <script>
+    document.querySelectorAll('.gallery-grid img').forEach(img => {
+      img.addEventListener('click', () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        lightbox.style.display = 'flex';
+        lightboxImg.src = img.src;
+      });
+    });
+    document.getElementById('lightbox').addEventListener('click', () => {
+      document.getElementById('lightbox').style.display = 'none';
+    });
+  </script>
+
+  <script>
+    function showMessage() {
+      const message = document.getElementById('hiddenMessage');
+      message.style.display = 'block'; // Make it visible
+      message.classList.add('animate'); // Add animation
+      confettiEffect(); // Trigger the confetti effect
+    }
+    function confettiEffect() {
+      confetti({
+        particleCount: 200,
+        spread: 90,
+        origin: { y: 0.6 },
+        colors: ['#ff6f61', '#ffcccb', '#ffe4e1', '#ffdd99']
+      });
+    }
+  </script>
+
+  <script>
+    // Countdown Timer
+    function updateCountdown() {
+      const targetDate = new Date('2025-12-07T00:00:02'); // Set your target date and time
+      const now = new Date();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        document.getElementById('countdown').textContent = 
+          `Days: ${days}, Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}`;
+      } else {
+        document.getElementById('countdown').textContent = "HAPPY ANNIVERSARY 💖🎉";
+      }
+    }
+
+    // Update the countdown every second
+    setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call to display immediately
+
+  </script>
+  </div>
+  <script>
+    // Define the correct username and password
+    const correctUsername = "YouandI4ever";
+    const correctPassword = "07/12/2021";
+
+    function authenticate() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username === correctUsername && password === correctPassword) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      } else {
+        document.getElementById('error-message').style.display = 'block';
+      }
+    }
+  </script>
+  <div style="height: 150px;"></div>
+</body>
+</html>
